@@ -26,7 +26,8 @@ module ReputationSystem
     before_validation :set_source_type_for_sti
 
     # the same source cannot evaluate the same target more than once.
-    validates_uniqueness_of :source_id, :scope => [:reputation_name, :source_type, :target_id, :target_type]
+    # validates_uniqueness_of :source_id, :scope => [:reputation_name, :source_type, :target_id, :target_type]
+
     validate :source_must_be_defined_for_reputation_in_network
 
     serialize :data, Hash

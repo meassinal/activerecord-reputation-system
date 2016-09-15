@@ -18,17 +18,18 @@ require 'spec_helper'
 
 describe ReputationSystem::Evaluation do
   before(:each) do
-    @user = User.create!(:name => 'jack')
+    @user     = User.create!(:name => 'jack')
     @question = Question.create!(:text => 'What is Twitter?', :author_id => @user.id)
   end
 
   context "Validation" do
     before :each do
-      @attributes = {:reputation_name => 'total_votes', :source => @user, :target => @question, :value => 1}
+      @attributes = { :reputation_name => 'total_votes', :source => @user, :target => @question, :value => 1 }
     end
-    it "should not be able to create an evaluation from given source if it has already evaluated the same reputation of the target" do
+
+    it "should be able to create an evaluation from given source if it has already evaluated the same reputation of the target" do
       ReputationSystem::Evaluation.create!(@attributes)
-      expect {ReputationSystem::Evaluation.create!(@attributes)}.to raise_error
+      expect { ReputationSystem::Evaluation.create!(@attributes) }.to change{ ReputationSystem::Evaluation.count }.by(1)
     end
   end
 

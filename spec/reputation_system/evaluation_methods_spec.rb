@@ -163,14 +163,14 @@ describe ReputationSystem::EvaluationMethods do
         expect { @question.add_evaluation(:invalid, 1, @user) }.to raise_error(ArgumentError)
       end
 
-      it "should raise exception if the same source evaluates for the same target more than once" do
+      it "should not raise exception if the same source evaluates for the same target more than once" do
         @question.add_evaluation(:total_votes, 1, @user)
-        expect { @question.add_evaluation(:total_votes, 1, @user) }.to raise_error
+        expect(@question.add_evaluation(:total_votes, 1, @user)).to be true
       end
 
-      it "should not allow the same source to add an evaluation for the same target" do
+      it "should allow the same source to add an evaluation for the same target" do
         @question.add_evaluation(:total_votes, 1, @user)
-        expect { @question.add_evaluation(:total_votes, 1, @user) }.to raise_error
+        expect(@question.add_evaluation(:total_votes, 1, @user)).to be true
       end
 
       it "should not raise exception if some association has not been initialized along during the propagation of reputation" do
